@@ -12,7 +12,9 @@ export const ROUTES = {
   admin: '/admin',
   adminProducts: '/admin/products',
   adminOrders: '/admin/orders',
+  adminOrderDetail: (id = ':orderId') => `/admin/orders/${id}`,
   adminUsers: '/admin/users',
+  adminUserDetail: (id = ':userId') => `/admin/users/${id}`,
 };
 
 export const USER_ROLES = {

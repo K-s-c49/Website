@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
@@ -6,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { formatCurrency, formatDate } from '@/lib/utils';
 import { fetchAdminOrders } from '@/features/orders/orderSlice';
 import { LoadingSpinner } from '@/components/common/LoadingSpinner';
+import { ROUTES } from '@/constants';
 
 const statusConfig = {
   pending: { label: 'Pending', variant: 'outline' },
@@ -16,12 +18,17 @@ const statusConfig = {
 };
 
 export function AdminOrdersPage() {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { adminItems, adminStatus } = useAppSelector((state) => state.orders);
 
   useEffect(() => {
     dispatch(fetchAdminOrders());
   }, [dispatch]);
+
+  const handleViewOrder = (orderId) => {
+    navigate(ROUTES.adminOrderDetail(orderId));
+  };
 
   if (adminStatus === 'loading') {
     return <LoadingSpinner label="Loading orders..." />;
@@ -61,7 +68,11 @@ export function AdminOrdersPage() {
                 </TableCell>
                 <TableCell>{formatCurrency(order.total)}</TableCell>
                 <TableCell className="text-right">
-                  <Button variant="outline" size="sm">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handleViewOrder(order.id ?? order._id)}
+                  >
                     View
                   </Button>
                 </TableCell>

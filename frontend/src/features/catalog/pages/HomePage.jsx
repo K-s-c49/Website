@@ -1,6 +1,10 @@
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import { useAuth } from '@/features/auth/hooks/useAuth';
 import { fetchProducts } from '@/features/products/productSlice';
+import { addCartItem } from '@/features/cart/cartSlice';
 import { ProductHero } from '@/components/common/ProductHero';
 import { SectionHeader } from '@/components/common/SectionHeader';
 import { ProductGrid } from '@/components/common/ProductGrid';
@@ -11,13 +15,33 @@ import { Link } from 'react-router-dom';
 
 export function HomePage() {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const { featured, status } = useAppSelector((state) => state.products);
+  const { isAuthenticated } = useAuth();
 
   useEffect(() => {
     if (status === 'idle') {
       dispatch(fetchProducts());
     }
   }, [dispatch, status]);
+
+  const handleAddToCart = (product) => {
+    if (!isAuthenticated) {
+      toast.info('Sign up required', { description: 'Please create an account to add items to your cart.' });
+      navigate(ROUTES.register);
+      return;
+    }
+
+    const productId = product.id ?? product._id;
+    dispatch(addCartItem({ productId, quantity: 1 }))
+      .unwrap()
+      .then(() => {
+        toast.success('Added to cart', { description: `${product.name} is now in your cart.` });
+      })
+      .catch((error) => {
+        toast.error('Add to cart failed', { description: error.message || error });
+      });
+  };
 
   return (
     <div className="container space-y-16">
@@ -27,14 +51,14 @@ export function HomePage() {
         <SectionHeader
           eyebrow="Featured"
           title="Bestsellers this season"
-          description="Carefully curated picks with exceptional reviews, lightning-fast shipping, and limited availability."
+          description="Trusted by the reviews. Exceptional quality, curated and limited for you."
           action={
             <Button asChild variant="outline">
               <Link to={ROUTES.products}>Explore catalog</Link>
             </Button>
           }
         />
-        {status === 'loading' ? <LoadingSpinner label="Loading featured products..." /> : <ProductGrid products={featured} />}
+        {status === 'loading' ? <LoadingSpinner label="Loading featured products..." /> : <ProductGrid products={featured} onAddToCart={handleAddToCart} />}
       </section>
 
       <section className="grid gap-10 lg:grid-cols-2">
@@ -81,6 +105,8 @@ export function HomePage() {
     </div>
   );
 }
+
+
 
 
 

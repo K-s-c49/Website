@@ -27,3 +27,38 @@ export const getErrorMessage = (error, fallback = 'Something went wrong') => {
   return fallback;
 };
 
+/**
+ * Get the full URL for a product image
+ * Handles both backend-uploaded images (/uploads/...) and frontend public images (/images/...)
+ */
+export const getImageUrl = (imagePath) => {
+  if (!imagePath) return '/images/products/logo.jpg';
+  
+  // If it's already a full URL (http:// or https://), return as is
+  if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+    return imagePath;
+  }
+  
+  // If it's a backend upload path (/uploads/...), prepend backend URL
+  if (imagePath.startsWith('/uploads/')) {
+    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:4000/api/v1';
+    const backendUrl = apiUrl.replace('/api/v1', '').replace(/\/$/, '');
+    return `${backendUrl}${imagePath}`;
+  }
+  
+  // If it's a frontend public image (/images/...), return as is (Vite handles it)
+  if (imagePath.startsWith('/images/') || imagePath.startsWith('./images/')) {
+    return imagePath.startsWith('./') ? imagePath.substring(1) : imagePath;
+  }
+  
+  // If it starts with storage/ (old format), convert to /uploads/
+  if (imagePath.startsWith('storage/uploads/')) {
+    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:4000/api/v1';
+    const backendUrl = apiUrl.replace('/api/v1', '').replace(/\/$/, '');
+    return `${backendUrl}/uploads/${imagePath.replace('storage/uploads/', '')}`;
+  }
+  
+  // Default fallback to placeholder
+  return '/images/products/logo.jpg';
+};
+

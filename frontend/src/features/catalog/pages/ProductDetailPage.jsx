@@ -9,7 +9,7 @@ import { QuantitySelector } from '@/components/common/QuantitySelector';
 import { RatingStars } from '@/components/common/RatingStars';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { formatCurrency } from '@/lib/utils';
+import { formatCurrency, getImageUrl } from '@/lib/utils';
 import { LoadingSpinner } from '@/components/common/LoadingSpinner';
 import { SectionHeader } from '@/components/common/SectionHeader';
 import { ROUTES } from '@/constants';
@@ -65,10 +65,14 @@ export function ProductDetailPage() {
           {product.images?.map((src) => (
             <img
               key={src}
-              src={src}
+              src={getImageUrl(src)}
               alt={product.name}
               className="h-[420px] w-full rounded-2xl object-cover"
               loading="lazy"
+              onError={(e) => {
+                // Fallback to a placeholder if image fails to load
+                e.target.src = '/images/products/logo.jpg';
+              }}
             />
           ))}
         </div>
@@ -94,9 +98,11 @@ export function ProductDetailPage() {
           </div>
           <div className="flex flex-wrap items-center gap-4">
             <QuantitySelector quantity={quantity} onChange={setQuantity} max={product.stock} />
-            <Button size="lg" onClick={handleAddToCart}>
+            <Button size="lg" onClick={handleAddToCart} className="flex-1 min-w-[160px]">
               Add to cart
             </Button>
+          </div>
+          <div>
             <span className="text-sm text-slate-500">
               {product.stock > 10 ? 'In stock' : `Only ${product.stock} left`}
             </span>

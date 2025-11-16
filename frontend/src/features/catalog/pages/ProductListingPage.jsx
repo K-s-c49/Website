@@ -30,21 +30,21 @@ export function ProductListingPage() {
     const category = searchParams.get('category');
     const priceParam = searchParams.get('price');
     const priceRange = priceParam ? priceParam.split('-').map(Number) : null;
-    const appliedFilters = { searchTerm, category, priceRange };
+    const appliedFilters = { search: searchTerm, category, priceRange };
     dispatch(setFilters(appliedFilters));
     dispatch(fetchProducts(appliedFilters));
   }, [dispatch, searchParams]);
 
   const handleSearch = (event) => {
     const value = event.target.value;
-    dispatch(setFilters({ searchTerm: value }));
+    dispatch(setFilters({ search: value }));
     setSearchParams((prev) => {
       const next = new URLSearchParams(prev);
       if (value) next.set('q', value);
       else next.delete('q');
       return next;
     });
-    dispatch(fetchProducts({ ...filters, searchTerm: value }));
+    dispatch(fetchProducts({ ...filters, search: value }));
   };
 
   const handleFilterChange = (nextFilters) => {
@@ -55,7 +55,7 @@ export function ProductListingPage() {
       else next.delete('category');
       if (nextFilters.priceRange) next.set('price', nextFilters.priceRange.join('-'));
       else next.delete('price');
-      if (nextFilters.searchTerm) next.set('q', nextFilters.searchTerm);
+      if (nextFilters.search) next.set('q', nextFilters.search);
       return next;
     });
     dispatch(fetchProducts(nextFilters));
@@ -92,11 +92,11 @@ export function ProductListingPage() {
               <Input
                 type="search"
                 placeholder="Search products"
-                value={filters.searchTerm}
+                value={filters.search}
                 onChange={handleSearch}
                 className="w-64"
               />
-              <Button variant="outline" onClick={() => handleFilterChange({ category: null, priceRange: null, searchTerm: '' })}>
+              <Button variant="outline" onClick={() => handleFilterChange({ category: null, priceRange: null, search: '' })}>
                 Reset
               </Button>
             </div>

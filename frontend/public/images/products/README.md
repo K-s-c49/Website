@@ -35,3 +35,5 @@ Place your product images in this directory with the following naming convention
 2. Place them in this directory: `frontend/public/images/products/`
 3. The images will be automatically accessible at `/images/products/[filename]`
 
+
+

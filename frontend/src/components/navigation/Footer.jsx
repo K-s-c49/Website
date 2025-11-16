@@ -62,7 +62,7 @@ export function Footer() {
       <div className="border-t border-slate-200 py-4">
         <div className="container flex flex-col gap-2 text-sm text-slate-500 sm:flex-row sm:items-center sm:justify-between">
           <p>&copy; {new Date().getFullYear()} Customize_23. All rights reserved.</p>
-          <p>Built with React, Redux Toolkit, Tailwind CSS, and shadcn/ui principles.</p>
+          <p>Crafted for the Ascent of Your Every Day.</p>
         </div>
       </div>
     </footer>

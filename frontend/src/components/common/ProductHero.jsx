@@ -10,14 +10,14 @@ export function ProductHero() {
           Holiday Collection
         </span>
         <h1 className="text-3xl font-bold leading-tight sm:text-4xl lg:text-5xl">
-          Elevate every moment with curated essentials crafted for modern living.
-        </h1>
+    Curated Grace: Let Your Moments Shine with Essential Light.
+</h1>
         <p className="text-base text-white/80">
           Explore a selection of products designed to create memorable experiences. Fast shipping, easy returns, and exceptional support.
         </p>
         <div className="flex flex-wrap items-center gap-3">
           <Button asChild size="lg">
-            <Link to={ROUTES.products}>Shop new arrivals</Link>
+            <Link to={ROUTES.products}>Acquire the New Arrivals.</Link>
           </Button>
           <Button asChild size="lg" variant="secondary">
             <Link to={ROUTES.products}>Browse bestsellers</Link>
@@ -28,6 +28,8 @@ export function ProductHero() {
     </section>
   );
 }
+
+
 
 
 

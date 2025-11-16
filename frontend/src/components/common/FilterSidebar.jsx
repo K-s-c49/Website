@@ -3,10 +3,10 @@ import { categories } from '@/mocks/data/products';
 import { cn } from '@/lib/utils';
 
 const priceRanges = [
-  { label: 'Under $50', value: [0, 50] },
-  { label: '$50 - $150', value: [50, 150] },
-  { label: '$150 - $300', value: [150, 300] },
-  { label: '$300+', value: [300, 10_000] },
+  { label: 'Under ₹50', value: [0, 50] },
+  { label: '₹50 - ₹150', value: [50, 150] },
+  { label: '₹150 - ₹300', value: [150, 300] },
+  { label: '₹300+', value: [300, 10_000] },
 ];
 
 export function FilterSidebar({ activeFilters, onChange }) {

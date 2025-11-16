@@ -25,9 +25,6 @@ export const clearStoredTokens = () => {
 export const apiClient = axios.create({
   baseURL: import.meta.env.VITE_API_URL ?? 'http://localhost:4000/api/v1',
   timeout: 10_000,
-  headers: {
-    'Content-Type': 'application/json',
-  },
 });
 
 apiClient.interceptors.request.use(
@@ -35,6 +32,10 @@ apiClient.interceptors.request.use(
     const { accessToken } = getStoredTokens();
     if (accessToken && !config.headers.Authorization) {
       config.headers.Authorization = `Bearer ${accessToken}`;
+    }
+    // Don't set Content-Type if FormData is being sent - let axios handle it
+    if (!(config.data instanceof FormData)) {
+      config.headers['Content-Type'] = 'application/json';
     }
     return config;
   },

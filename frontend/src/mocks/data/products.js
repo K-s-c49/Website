@@ -23,8 +23,7 @@ export const products = [
     category: 'electronics',
     brand: 'SoundWave',
     images: [
-      '/images/products/headphones-yellow.jpg',
-      '/images/products/headphones-yellow-2.jpg',
+      './images/products/camara.jpg',
     ],
     badges: ['Bestseller', 'Free Shipping'],
     highlights: [

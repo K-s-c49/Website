@@ -127,7 +127,7 @@ export function CheckoutPage() {
             </div>
             <div className="space-y-2">
               <Label htmlFor="country">Country</Label>
-              <Input id="country" defaultValue="USA" {...register('country', { required: true })} />
+              <Input id="country" defaultValue="INDIA" {...register('country', { required: true })} />
             </div>
           </div>
         </div>

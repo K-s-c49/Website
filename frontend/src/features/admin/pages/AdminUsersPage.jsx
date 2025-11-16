@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -6,14 +7,20 @@ import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { fetchAdminUsers, toggleAdminUserStatus } from '../adminSlice';
 import { LoadingSpinner } from '@/components/common/LoadingSpinner';
 import { toast } from 'sonner';
+import { ROUTES } from '@/constants';
 
 export function AdminUsersPage() {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { users, status } = useAppSelector((state) => state.admin);
 
   useEffect(() => {
     dispatch(fetchAdminUsers());
   }, [dispatch]);
+
+  const handleViewUser = (userId) => {
+    navigate(ROUTES.adminUserDetail(userId));
+  };
 
   const handleToggleStatus = (user) => {
     dispatch(toggleAdminUserStatus(user.id ?? user._id))
@@ -72,7 +79,11 @@ export function AdminUsersPage() {
                 <TableCell>{user.address ? `${user.address.city}, ${user.address.state}` : '—'}</TableCell>
                 <TableCell className="text-right">
                   <div className="flex items-center justify-end gap-2">
-                    <Button variant="outline" size="sm">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleViewUser(user.id ?? user._id)}
+                    >
                       View
                     </Button>
                     <Button

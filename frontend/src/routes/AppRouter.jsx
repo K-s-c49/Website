@@ -26,7 +26,9 @@ import { OrderHistoryPage } from '@/features/orders/OrderHistoryPage';
 import { AdminDashboardPage } from '@/features/admin/pages/AdminDashboardPage';
 import { AdminProductsPage } from '@/features/admin/pages/AdminProductsPage';
 import { AdminOrdersPage } from '@/features/admin/pages/AdminOrdersPage';
+import { AdminOrderDetailPage } from '@/features/admin/pages/AdminOrderDetailPage';
 import { AdminUsersPage } from '@/features/admin/pages/AdminUsersPage';
+import { AdminUserDetailPage } from '@/features/admin/pages/AdminUserDetailPage';
 
 export function AppRouter() {
   return (
@@ -92,7 +94,9 @@ export function AppRouter() {
           <Route path={ROUTES.admin} element={<AdminDashboardPage />} />
           <Route path={ROUTES.adminProducts} element={<AdminProductsPage />} />
           <Route path={ROUTES.adminOrders} element={<AdminOrdersPage />} />
+          <Route path={ROUTES.adminOrderDetail()} element={<AdminOrderDetailPage />} />
           <Route path={ROUTES.adminUsers} element={<AdminUsersPage />} />
+          <Route path={ROUTES.adminUserDetail()} element={<AdminUserDetailPage />} />
         </Route>
       </Route>
 
