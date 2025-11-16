@@ -33,7 +33,29 @@ export const createProductController = asyncHandler(async (req, res) => {
 });
 
 export const updateProductController = asyncHandler(async (req, res) => {
-  const product = await updateProduct(req.params.id, req.body);
+  const updates = { ...req.body };
+  
+  // Handle existing images from FormData
+  let existingImages = [];
+  if (updates.existingImages) {
+    try {
+      existingImages = JSON.parse(updates.existingImages);
+      delete updates.existingImages; // Remove from updates object
+    } catch (e) {
+      // If parsing fails, ignore
+    }
+  }
+  
+  // If new images are uploaded, merge with existing images
+  if (req.files && req.files.length > 0) {
+    const newImages = req.files.map((file) => `/uploads/${file.filename}`);
+    updates.images = [...existingImages, ...newImages];
+  } else if (existingImages.length > 0) {
+    // Only existing images, no new ones
+    updates.images = existingImages;
+  }
+  
+  const product = await updateProduct(req.params.id, updates);
   res.status(httpStatus.OK).json(new ApiResponse(httpStatus.OK, product, 'Product updated'));
 });
 
@@ -41,6 +63,8 @@ export const deleteProductController = asyncHandler(async (req, res) => {
   await deleteProduct(req.params.id);
   res.status(httpStatus.NO_CONTENT).send();
 });
+
+
 
 
 

@@ -31,7 +31,7 @@ const products = [
     stock: 32,
     category: 'electronics',
     brand: 'SoundWave',
-    images: ['/uploads/seed-headphones.jpg'],
+    images: ['/uploads/iphone2.jpg'],
     isFeatured: true,
   },
   {
@@ -42,7 +42,7 @@ const products = [
     stock: 58,
     category: 'electronics',
     brand: 'Pulse',
-    images: ['/uploads/seed-speaker.jpg'],
+    images: ['/uploads/iphone2.jpg'],
   },
   {
     name: 'Ergonomic Office Chair',
@@ -54,6 +54,7 @@ const products = [
     category: 'home',
     brand: 'ComfortLab',
     images: ['/uploads/seed-chair.jpg'],
+    isFeatured: true,
   },
 ];
 

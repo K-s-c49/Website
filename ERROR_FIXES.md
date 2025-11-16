@@ -84,3 +84,5 @@ The frontend should run on `http://localhost:5173` (or similar Vite port)
 
 The application is now error-free and ready for development/testing.
 
+
+

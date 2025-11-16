@@ -26,10 +26,20 @@ router.post(
   createProductController,
 );
 
-router.patch('/:id', authenticate, authorize('admin'), updateProductValidation, validateRequest, updateProductController);
+router.patch(
+  '/:id',
+  authenticate,
+  authorize('admin'),
+  upload.array('images', 5),
+  updateProductValidation,
+  validateRequest,
+  updateProductController,
+);
 router.delete('/:id', authenticate, authorize('admin'), deleteProductController);
 
 export default router;
+
+
 
 
 
